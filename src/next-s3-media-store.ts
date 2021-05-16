@@ -217,15 +217,15 @@ const getNewS3StsToken = async (): Promise<StsTokenAndCreatedAt> => {
   const res = await fetch(`/api/s3-sts-token`)
   const data = await res.json()
 
-  if (!data) {
-    const msg = 'Failed to get S3 STS token'
-    console.error(msg)
-    throw new Error(msg)
-  }
-
   if (data.error) {
     console.error(data.error)
     throw data.error
+  }
+
+  if (!data.token) {
+    const msg = 'Failed to get S3 STS token'
+    console.error(msg)
+    throw new Error(msg)
   }
 
   return data
